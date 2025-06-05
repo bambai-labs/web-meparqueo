@@ -43,7 +43,7 @@ const AuthenticationTitle = () => {
     <div className="container-fluid">
       <div className="row min-vh-100">
         <div className="col-lg-6 d-flex flex-column justify-content-center align-items-center p-5">
-          <h2 className="text-center mb-4">Bienvenido de nuevo a Me Parqueo</h2>
+          <h2 className="text-center mb-4">Bienvenido a Me Parqueo</h2>
           <div className="card shadow-sm w-100" style={{ maxWidth: '400px' }}>
             <div className="card-body">
               <form onSubmit={handleSubmit}>
