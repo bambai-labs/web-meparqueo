@@ -149,6 +149,9 @@ export interface ParkingLot {
   services?: Service[];
   createdAt?: string;
   updatedAt?: string;
+  capacityCar?: number;
+  capacityMotorcycle?: number;
+  averageParkingHours?: number;
 
   // Relaciones
   ownerId?: string | null;

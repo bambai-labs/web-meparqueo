@@ -33,6 +33,9 @@ export interface ParkingLotDto {
   priceCarPerDay?: number;
   comfort?: number;
   acceptedVehicleTypes?: string[];
+  capacityCar?: number;
+  capacityMotorcycle?: number;
+  averageParkingHours?: number;
 }
 
 export interface ParkingLotHistories {
@@ -63,5 +66,8 @@ export const sanitizeParkingLotData = (values: ParkingLot): ParkingLotDto => {
     images: values.images,
     paymentMethods: values.paymentMethods,
     services: values.services,
+    capacityCar: values.capacityCar || 0,
+    capacityMotorcycle: values.capacityMotorcycle || 0,
+    averageParkingHours: values.averageParkingHours || 0,
   };
 };
