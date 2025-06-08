@@ -296,8 +296,8 @@ const HistoryDrawer = ({
                   );
 
                 const availabilityText = {
-                  [ParkingLotAvailability.MORE_THAN_FIVE]: 'Más de 5 puestos',
-                  [ParkingLotAvailability.LESS_THAN_FIVE]: 'Menos de 5 puestos',
+                  [ParkingLotAvailability.MORE_THAN_FIVE]: 'Disponible',
+                  [ParkingLotAvailability.LESS_THAN_FIVE]: 'Pocos espacios',
                   [ParkingLotAvailability.NO_AVAILABILITY]:
                     'Sin disponibilidad',
                 }[record.availability];
@@ -482,6 +482,27 @@ const FormFields = React.memo(
           step={0.5}
         />
 
+        <NumberInput
+          label="Capacidad de carros"
+          {...form.getInputProps('capacityCar')}
+          mb="sm"
+          min={0}
+        />
+
+        <NumberInput
+          label="Capacidad de motocicletas"
+          {...form.getInputProps('capacityMotorcycle')}
+          mb="sm"
+          min={0}
+        />
+
+        <NumberInput
+          label="Promedio de horas de estacionamiento"
+          {...form.getInputProps('averageParkingHours')}
+          mb="sm"
+          min={0}
+        />
+
         <MultiSelect
           label="Tipos de vehículos aceptados"
           data={[
@@ -569,6 +590,18 @@ const FormFields = React.memo(
           mb="sm"
           searchable
         />
+
+        <Select
+          label="Disponibilidad"
+          data={[
+            { label: 'Disponible', value: 'MORE_THAN_FIVE' },
+            { label: 'Pocos espacios', value: 'LESS_THAN_FIVE' },
+            { label: 'Sin disponibilidad', value: 'NO_AVAILABILITY' },
+          ]}
+          {...form.getInputProps('availability')}
+          mb="sm"
+          searchable
+        />
       </>
     );
   },
@@ -628,7 +661,7 @@ const ParkingLots = () => {
         services: [],
         ownerId: null,
         nodeIds: [],
-        availability: ParkingLotAvailability.NO_AVAILABILITY,
+        availability: ParkingLotAvailability.MORE_THAN_FIVE,
         globalStatus: GlobalStatus.ACTIVE,
         description: '',
         priceCarPerHour: 0,
@@ -637,6 +670,9 @@ const ParkingLots = () => {
         priceMotorcyclePerDay: 0,
         comfort: 0,
         acceptedVehicleTypes: [],
+        capacityCar: 0,
+        capacityMotorcycle: 0,
+        averageParkingHours: 0,
       }),
       [],
     ),
@@ -798,6 +834,11 @@ const ParkingLots = () => {
       priceMotorcyclePerDay: parkingLot.priceMotorcyclePerDay || 0,
       comfort: parkingLot.comfort || 0,
       acceptedVehicleTypes: parkingLot.acceptedVehicleTypes || [],
+      capacityCar: parkingLot.capacityCar || 0,
+      capacityMotorcycle: parkingLot.capacityMotorcycle || 0,
+      averageParkingHours: parkingLot.averageParkingHours || 0,
+      availability:
+        parkingLot.availability || ParkingLotAvailability.MORE_THAN_FIVE,
     });
     const existingImgs = parkingLot.images || [];
     setImageState({
@@ -857,6 +898,33 @@ const ParkingLots = () => {
       {
         accessorKey: 'priceMotorcyclePerDay',
         header: 'Precio Moto (Día)',
+      },
+      {
+        accessorKey: 'availability',
+        header: 'Disponibilidad',
+        Cell: ({ row }) => {
+          return (
+            <Badge
+              color={
+                row.original.availability ===
+                ParkingLotAvailability.MORE_THAN_FIVE
+                  ? 'green'
+                  : row.original.availability ===
+                      ParkingLotAvailability.LESS_THAN_FIVE
+                    ? 'yellow'
+                    : 'red'
+              }
+            >
+              {row.original.availability ===
+              ParkingLotAvailability.MORE_THAN_FIVE
+                ? 'Disponible'
+                : row.original.availability ===
+                    ParkingLotAvailability.LESS_THAN_FIVE
+                  ? 'Pocos espacios'
+                  : 'Sin disponibilidad'}
+            </Badge>
+          );
+        },
       },
       {
         accessorKey: 'ownerId',
