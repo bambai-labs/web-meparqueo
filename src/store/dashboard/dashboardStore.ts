@@ -32,9 +32,8 @@ export const useDashboardStore = create<DashboardStore>((set) => ({
       errors: [],
     }));
     try {
-      const response = await api.get<ApiResponse<DashboardStats>>(
-        '/dashboard/stats',
-      );
+      const response =
+        await api.get<ApiResponse<DashboardStats>>('/dashboard/stats');
       const stats = response.data.data;
       set((state) => ({
         stats,
