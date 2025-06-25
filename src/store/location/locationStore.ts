@@ -57,6 +57,7 @@ export const useLocationStore = create<LocationState>((set, get) => ({
           return { locations: updatedLocations };
         } else {
           // Agregar nueva ubicación (esto no debería pasar normalmente)
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           return { locations: [...state.locations, location as any] };
         }
       });
@@ -83,6 +84,7 @@ export const useLocationStore = create<LocationState>((set, get) => ({
 
     // Escuchar errores de conexión
     socket.on('connect_error', (error) => {
+      console.error(error);
       set({ error: 'Error de conexión al socket', isConnected: false });
     });
 
