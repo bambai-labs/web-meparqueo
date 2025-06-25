@@ -45,3 +45,34 @@ export const API_ENDPOINTS = {
     getInfo: '/files/get-info',
   },
 };
+
+export interface UserLocation {
+  id: string;
+  latitude: number;
+  longitude: number;
+  timestamp: Date;
+  user: {
+    id: string;
+    email: string;
+    role: string;
+    person: {
+      id: string;
+      names: string;
+      lastNames: string;
+      email: string;
+      phone: string;
+    };
+  };
+}
+
+export interface LocationUpdate {
+  userId: string;
+  latitude: number;
+  longitude: number;
+  timestamp: Date;
+}
+
+export interface UserConnection {
+  userId: string;
+  role: string;
+}
