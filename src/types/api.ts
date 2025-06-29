@@ -38,6 +38,16 @@ export const API_ENDPOINTS = {
     getHistory: (parkingLotId: string) =>
       `admin/parking-lot/${parkingLotId}/history`,
   },
+  config: {
+    version: {
+      get: '/config/version',
+      update: '/config/version',
+    },
+    banner: {
+      get: '/config/banner',
+      update: '/config/banner',
+    },
+  },
   files: {
     upload: '/files/upload',
     delete: '/files/delete',
