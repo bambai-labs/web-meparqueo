@@ -13,6 +13,7 @@ import Dashboard from './pages/dashboard';
 import Users from './pages/dashboard/Users';
 import Nodes from './pages/dashboard/Nodes';
 import ParkingLots from './pages/dashboard/ParkingLots';
+import Config from './pages/dashboard/Config';
 import Page404 from './pages/404';
 import Page401 from './pages/401';
 
@@ -57,6 +58,15 @@ function App() {
               <ProtectedRoute
                 allowedRoles={[Role.ADMIN]}
                 children={<ParkingLots />}
+              />
+            }
+          />
+          <Route
+            path="/dashboard/config"
+            element={
+              <ProtectedRoute
+                allowedRoles={[Role.ADMIN]}
+                children={<Config />}
               />
             }
           />

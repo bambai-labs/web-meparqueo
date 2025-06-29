@@ -9,6 +9,7 @@ import {
   IconUserCircle,
   IconUsers,
   IconParking,
+  IconSettings,
 } from '@tabler/icons-react';
 import { useAuthStore } from '../../store/auth/authStore';
 import { useUserStore } from '../../store/user/userStore';
@@ -144,6 +145,13 @@ function Sidenav({ children }: { children: ReactNode }) {
                     { to: '/dashboard/nodos', name: 'Nodos' },
                   ]}
                 />
+
+                <Link className="nav-link" to={'/dashboard/config'}>
+                  <div className="sb-nav-link-icon">
+                    <IconSettings />
+                  </div>
+                  Configuración
+                </Link>
               </div>
             </div>
             <div className="sb-sidenav-footer">
