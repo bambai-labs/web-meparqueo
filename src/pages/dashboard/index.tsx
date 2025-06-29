@@ -24,8 +24,6 @@ import { UserActivityChart } from '../../components/Dashboard/Charts/UserActivit
 import { SearchPatternsChart } from '../../components/Dashboard/Charts/SearchPatternsChart';
 import { LocationFrequencyChart } from '../../components/Dashboard/Charts/LocationFrequencyChart';
 import { GrowthChart } from '../../components/Dashboard/Charts/GrowthChart';
-import { RealTimeMap } from '../../components/Dashboard/RealTimeMap';
-import { ConnectedUsersList } from '../../components/Dashboard/ConnectedUsersList';
 
 export default function Dashboard() {
   const {
@@ -176,16 +174,6 @@ export default function Dashboard() {
             dailyData={stats.userUsage.searchPatterns.daily}
             title="Patrones de Búsqueda"
           />
-        </Grid.Col>
-      </Grid>
-
-      {/* Mapa en tiempo real y lista de usuarios */}
-      <Grid mb="xl">
-        <Grid.Col span={8}>
-          <RealTimeMap title="Ubicaciones de Usuarios en Tiempo Real" />
-        </Grid.Col>
-        <Grid.Col span={4}>
-          <ConnectedUsersList title="Usuarios Conectados" />
         </Grid.Col>
       </Grid>
 
