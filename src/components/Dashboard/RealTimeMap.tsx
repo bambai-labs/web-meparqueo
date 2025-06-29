@@ -30,7 +30,7 @@ export function RealTimeMap({ title = 'Mapa en Tiempo Real' }: RealTimeMapProps)
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v12',
-      center: [-75.878538, 8.746125], // Montería, Colombia
+      center: [-74.0817, 4.6097], // Bogotá, Colombia
       zoom: 12,
       attributionControl: false,
     });
