@@ -167,3 +167,21 @@ export interface ParkingLotHistory {
   availability: ParkingLotAvailability;
   updatedAt: string;
 }
+
+// Configuración
+export interface AppVersion {
+  version: string;
+}
+
+export interface VersionConfig {
+  id: string;
+  app: AppVersion;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface BannerConfig {
+  link: string;
+  background: string;
+  image: string;
+}
