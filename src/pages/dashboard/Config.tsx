@@ -14,6 +14,7 @@ import {
   Paper,
   Title,
   Badge,
+  Switch,
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { IconDeviceFloppy, IconRefresh } from '@tabler/icons-react';
@@ -47,6 +48,7 @@ const Config = () => {
       link: '',
       background: '#FFFFFF',
       image: '',
+      visibility: true,
     },
     validate: {
       link: (value) => (!value ? 'El enlace es requerido' : null),
@@ -85,6 +87,7 @@ const Config = () => {
         link: banner.link,
         background: banner.background,
         image: banner.image,
+        visibility: banner.visibility,
       });
     }
   }, [banner]);
@@ -119,6 +122,7 @@ const Config = () => {
     link: string;
     background: string;
     image: string;
+    visibility: boolean;
   }) => {
     try {
       await updateBanner(values);
@@ -237,6 +241,12 @@ const Config = () => {
                   placeholder="https://ejemplo.com/banner.png"
                   required
                   {...bannerForm.getInputProps('image')}
+                />
+
+                <Switch
+                  label="Mostrar Banner"
+                  description="Activa o desactiva la visibilidad del banner en la aplicación"
+                  {...bannerForm.getInputProps('visibility', { type: 'checkbox' })}
                 />
 
                 {/* Vista previa del banner */}
