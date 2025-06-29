@@ -6,4 +6,5 @@ export interface UpdateBannerDto {
   link: string;
   background: string;
   image: string;
+  visibility: boolean;
 } 
