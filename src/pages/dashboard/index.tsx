@@ -25,6 +25,7 @@ import { UserActivityChart } from '../../components/Dashboard/Charts/UserActivit
 import { SearchPatternsChart } from '../../components/Dashboard/Charts/SearchPatternsChart';
 import { LocationFrequencyChart } from '../../components/Dashboard/Charts/LocationFrequencyChart';
 import { GrowthChart } from '../../components/Dashboard/Charts/GrowthChart';
+import { useMediaQuery } from '@mantine/hooks';
 
 export default function Dashboard() {
   const {
@@ -47,6 +48,8 @@ export default function Dashboard() {
     today,
   ]);
 
+  const isMobile = useMediaQuery('(max-width: 768px)');
+
   useEffect(() => {
     const fetchData = async () => {
       if (!dateRange[0] || !dateRange[1]) {
@@ -66,7 +69,7 @@ export default function Dashboard() {
       }
     };
     fetchData();
-  }, [getStats, getUserFrequency, dateRange]);
+  }, [getStats, getUserFrequency, dateRange, clearError]);
 
   const handleRefresh = async () => {
     clearError();
@@ -138,19 +141,29 @@ export default function Dashboard() {
       <Box
         style={{
           display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
           justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '32px',
+          alignItems: isMobile ? 'stretch' : 'center',
+          gap: isMobile ? 16 : 0,
+          marginBottom: isMobile ? 16 : 32,
         }}
       >
         <div>
-          <Title order={1}>Panel de Control</Title>
-          <Text c="dimmed" size="sm">
+          <Title order={1} size={isMobile ? 24 : 32}>Panel de Control</Title>
+          <Text c="dimmed" size={isMobile ? 'xs' : 'sm'}>
             Última actualización:{' '}
             {stats ? new Date(stats.lastUpdated).toLocaleString('es-ES') : ''}
           </Text>
         </div>
-        <Box style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+        <Box
+          style={{
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row',
+            gap: 12,
+            alignItems: isMobile ? 'stretch' : 'center',
+            width: isMobile ? '100%' : 'auto',
+          }}
+        >
           <DatePickerInput
             type="range"
             value={dateRange}
@@ -158,7 +171,8 @@ export default function Dashboard() {
             maxDate={today}
             locale="es"
             size="sm"
-            style={{ minWidth: 260 }}
+            label="Rango de fechas"
+            style={{ minWidth: isMobile ? '100%' : 260, width: isMobile ? '100%' : 'auto' }}
             dropdownType="popover"
             clearable={false}
             withAsterisk
@@ -167,6 +181,7 @@ export default function Dashboard() {
           <Button
             onClick={handleRefresh}
             disabled={!dateRange[0] || !dateRange[1]}
+            fullWidth={isMobile}
           >
             <IconRefresh size={16} style={{ marginRight: '8px' }} />
             Actualizar
@@ -175,8 +190,8 @@ export default function Dashboard() {
       </Box>
 
       {/* Cards de estadísticas principales */}
-      <Grid mb="xl">
-        <Grid.Col span={4}>
+      <Grid mb="xl" gutter={isMobile ? 'xs' : 'xl'}>
+        <Grid.Col span={isMobile ? 12 : 4}>
           <StatsCard
             title="Total Usuarios"
             value={stats.growth.totalUsers}
@@ -185,7 +200,7 @@ export default function Dashboard() {
             description="Usuarios registrados"
           />
         </Grid.Col>
-        <Grid.Col span={4}>
+        <Grid.Col span={isMobile ? 12 : 4}>
           <StatsCard
             title="Parqueaderos"
             value={stats.growth.totalParkingLots}
@@ -194,7 +209,7 @@ export default function Dashboard() {
             description="Parqueaderos disponibles"
           />
         </Grid.Col>
-        <Grid.Col span={4}>
+        <Grid.Col span={isMobile ? 12 : 4}>
           <StatsCard
             title="Búsquedas Totales"
             value={stats.userUsage.searchPatterns.totalSearches}
@@ -206,60 +221,70 @@ export default function Dashboard() {
       </Grid>
 
       {/* Gráficas principales */}
-      <Grid mb="xl">
-        <Grid.Col span={6}>
-          <UserActivityChart
-            data={stats.userUsage.topUsers}
-            title="Usuarios Más Activos"
-          />
+      <Grid mb="xl" gutter={isMobile ? 'xs' : 'xl'}>
+        <Grid.Col span={isMobile ? 12 : 6}>
+          <Box style={{ overflowX: 'auto' }}>
+            <UserActivityChart
+              data={stats.userUsage.topUsers}
+              title="Usuarios Más Activos"
+            />
+          </Box>
         </Grid.Col>
-        <Grid.Col span={6}>
-          <SearchPatternsChart
-            hourlyData={stats.userUsage.searchPatterns.hourly}
-            dailyData={stats.userUsage.searchPatterns.daily}
-            title="Patrones de Búsqueda"
-          />
+        <Grid.Col span={isMobile ? 12 : 6}>
+          <Box style={{ overflowX: 'auto' }}>
+            <SearchPatternsChart
+              hourlyData={stats.userUsage.searchPatterns.hourly}
+              dailyData={stats.userUsage.searchPatterns.daily}
+              title="Patrones de Búsqueda"
+            />
+          </Box>
         </Grid.Col>
       </Grid>
 
-      <Grid mb="xl">
-        <Grid.Col span={6}>
-          <LocationFrequencyChart
-            data={stats.userUsage.locationFrequency}
-            title="Ubicaciones Más Frecuentes"
-          />
+      <Grid mb="xl" gutter={isMobile ? 'xs' : 'xl'}>
+        <Grid.Col span={isMobile ? 12 : 6}>
+          <Box style={{ overflowX: 'auto' }}>
+            <LocationFrequencyChart
+              data={stats.userUsage.locationFrequency}
+              title="Ubicaciones Más Frecuentes"
+            />
+          </Box>
         </Grid.Col>
-        <Grid.Col span={6}>
-          <GrowthChart
-            data={stats.growth.monthlyGrowth}
-            title="Crecimiento Mensual"
-          />
+        <Grid.Col span={isMobile ? 12 : 6}>
+          <Box style={{ overflowX: 'auto' }}>
+            <GrowthChart
+              data={stats.growth.monthlyGrowth}
+              title="Crecimiento Mensual"
+            />
+          </Box>
         </Grid.Col>
       </Grid>
 
       {/* Estadísticas adicionales */}
-      <Grid>
-        <Grid.Col span={6}>
-          <Paper shadow="sm" p="lg" radius="md" withBorder>
-            <Title order={3} mb="md">
+      <Grid gutter={isMobile ? 'xs' : 'xl'}>
+        <Grid.Col span={isMobile ? 12 : 6}>
+          <Paper shadow="sm" p={isMobile ? 'sm' : 'lg'} radius="md" withBorder>
+            <Title order={3} mb="md" size={isMobile ? 16 : 20}>
               Parqueaderos Más Visitados
             </Title>
-            <Stack>
+            <Stack spacing={isMobile ? 4 : 'md'}>
               {stats.parkingLots.mostVisited.slice(0, 5).map((parkingLot) => (
                 <Box
                   key={parkingLot.id}
                   style={{
                     display: 'flex',
+                    flexDirection: isMobile ? 'column' : 'row',
                     justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: '8px',
+                    alignItems: isMobile ? 'flex-start' : 'center',
+                    marginBottom: isMobile ? 4 : 8,
+                    gap: isMobile ? 2 : 0,
                   }}
                 >
                   <div>
-                    <Text fw={500} size="sm">
+                    <Text fw={500} size={isMobile ? 'xs' : 'sm'}>
                       {parkingLot.name}
                     </Text>
-                    <Text size="xs" c="dimmed">
+                    <Text size={isMobile ? 'xs' : 'xs'} c="dimmed">
                       {parkingLot.address}
                     </Text>
                   </div>
@@ -270,10 +295,10 @@ export default function Dashboard() {
                       alignItems: 'center',
                     }}
                   >
-                    <Text size="sm" fw={500}>
+                    <Text size={isMobile ? 'xs' : 'sm'} fw={500}>
                       {parkingLot.totalVisits} visitas
                     </Text>
-                    <Text size="xs" c="dimmed">
+                    <Text size={isMobile ? 'xs' : 'xs'} c="dimmed">
                       ${parkingLot.price}
                     </Text>
                   </Box>
@@ -282,55 +307,55 @@ export default function Dashboard() {
             </Stack>
           </Paper>
         </Grid.Col>
-        <Grid.Col span={6}>
-          <Paper shadow="sm" p="lg" radius="md" withBorder>
-            <Title order={3} mb="md">
+        <Grid.Col span={isMobile ? 12 : 6}>
+          <Paper shadow="sm" p={isMobile ? 'sm' : 'lg'} radius="md" withBorder>
+            <Title order={3} mb="md" size={isMobile ? 16 : 20}>
               Resumen de Interacciones
             </Title>
-            <Stack>
+            <Stack spacing={isMobile ? 4 : 'md'}>
               <Box
                 style={{
                   display: 'flex',
                   justifyContent: 'space-between',
-                  marginBottom: '16px',
+                  marginBottom: isMobile ? 4 : 16,
                 }}
               >
-                <Text>Reportes Totales</Text>
-                <Text fw={500}>{stats.interactions.totalReports}</Text>
+                <Text size={isMobile ? 'xs' : 'sm'}>Reportes Totales</Text>
+                <Text fw={500} size={isMobile ? 'xs' : 'sm'}>{stats.interactions.totalReports}</Text>
               </Box>
               <Box
                 style={{
                   display: 'flex',
                   justifyContent: 'space-between',
-                  marginBottom: '16px',
+                  marginBottom: isMobile ? 4 : 16,
                 }}
               >
-                <Text>Búsquedas con Filtros</Text>
-                <Text fw={500}>{stats.interactions.searchesWithFilters}</Text>
+                <Text size={isMobile ? 'xs' : 'sm'}>Búsquedas con Filtros</Text>
+                <Text fw={500} size={isMobile ? 'xs' : 'sm'}>{stats.interactions.searchesWithFilters}</Text>
               </Box>
               <Box
                 style={{
                   display: 'flex',
                   justifyContent: 'space-between',
-                  marginBottom: '16px',
+                  marginBottom: isMobile ? 4 : 16,
                 }}
               >
-                <Text>Reportes Pendientes</Text>
-                <Text fw={500}>{stats.interactions.pendingReports}</Text>
+                <Text size={isMobile ? 'xs' : 'sm'}>Reportes Pendientes</Text>
+                <Text fw={500} size={isMobile ? 'xs' : 'sm'}>{stats.interactions.pendingReports}</Text>
               </Box>
               <Box
                 style={{
                   display: 'flex',
                   justifyContent: 'space-between',
-                  marginBottom: '16px',
+                  marginBottom: isMobile ? 4 : 16,
                 }}
               >
-                <Text>Reportes Resueltos</Text>
-                <Text fw={500}>{stats.interactions.resolvedReports}</Text>
+                <Text size={isMobile ? 'xs' : 'sm'}>Reportes Resueltos</Text>
+                <Text fw={500} size={isMobile ? 'xs' : 'sm'}>{stats.interactions.resolvedReports}</Text>
               </Box>
               <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Text>Distancia Promedio</Text>
-                <Text fw={500}>
+                <Text size={isMobile ? 'xs' : 'sm'}>Distancia Promedio</Text>
+                <Text fw={500} size={isMobile ? 'xs' : 'sm'}>
                   {stats.behavior.averageDistance.toFixed(1)} mt
                 </Text>
               </Box>
