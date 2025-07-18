@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Container,
   Grid,
@@ -11,6 +11,7 @@ import {
   Alert,
   Button,
 } from '@mantine/core';
+import { DatePickerInput } from '@mantine/dates';
 import {
   IconUsers,
   IconMapPin,
@@ -36,22 +37,48 @@ export default function Dashboard() {
     clearError,
   } = useDashboardStore();
 
+  // Inicializar fechas al último mes
+  const today = new Date();
+  const lastMonth = new Date(today);
+  lastMonth.setMonth(today.getMonth() - 1);
+  lastMonth.setDate(today.getDate());
+  const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
+    lastMonth,
+    today,
+  ]);
+
   useEffect(() => {
     const fetchData = async () => {
+      if (!dateRange[0] || !dateRange[1]) {
+        clearError();
+        return;
+      }
       try {
-        await Promise.all([getStats(), getUserFrequency()]);
+        await Promise.all([
+          getStats(dateRange[0].toISOString(), dateRange[1].toISOString()),
+          getUserFrequency(
+            dateRange[0].toISOString(),
+            dateRange[1].toISOString(),
+          ),
+        ]);
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
       }
     };
-
     fetchData();
-  }, [getStats, getUserFrequency]);
+  }, [getStats, getUserFrequency, dateRange]);
 
   const handleRefresh = async () => {
     clearError();
+    if (!dateRange[0] || !dateRange[1]) return;
     try {
-      await Promise.all([getStats(), getUserFrequency()]);
+      await Promise.all([
+        getStats(dateRange[0].toISOString(), dateRange[1].toISOString()),
+        getUserFrequency(
+          dateRange[0].toISOString(),
+          dateRange[1].toISOString(),
+        ),
+      ]);
     } catch (error) {
       console.error('Error refreshing dashboard data:', error);
     }
@@ -120,13 +147,31 @@ export default function Dashboard() {
           <Title order={1}>Panel de Control</Title>
           <Text c="dimmed" size="sm">
             Última actualización:{' '}
-            {new Date(stats.lastUpdated).toLocaleString('es-ES')}
+            {stats ? new Date(stats.lastUpdated).toLocaleString('es-ES') : ''}
           </Text>
         </div>
-        <Button onClick={handleRefresh}>
-          <IconRefresh size={16} style={{ marginRight: '8px' }} />
-          Actualizar
-        </Button>
+        <Box style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+          <DatePickerInput
+            type="range"
+            value={dateRange}
+            onChange={setDateRange}
+            maxDate={today}
+            locale="es"
+            size="sm"
+            style={{ minWidth: 260 }}
+            dropdownType="popover"
+            clearable={false}
+            withAsterisk
+            valueFormat="DD/MM/YYYY"
+          />
+          <Button
+            onClick={handleRefresh}
+            disabled={!dateRange[0] || !dateRange[1]}
+          >
+            <IconRefresh size={16} style={{ marginRight: '8px' }} />
+            Actualizar
+          </Button>
+        </Box>
       </Box>
 
       {/* Cards de estadísticas principales */}
