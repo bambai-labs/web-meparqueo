@@ -149,7 +149,9 @@ export default function Dashboard() {
         }}
       >
         <div>
-          <Title order={1} size={isMobile ? 24 : 32}>Panel de Control</Title>
+          <Title order={1} size={isMobile ? 24 : 32}>
+            Panel de Control
+          </Title>
           <Text c="dimmed" size={isMobile ? 'xs' : 'sm'}>
             Última actualización:{' '}
             {stats ? new Date(stats.lastUpdated).toLocaleString('es-ES') : ''}
@@ -171,8 +173,10 @@ export default function Dashboard() {
             maxDate={today}
             locale="es"
             size="sm"
-            label="Rango de fechas"
-            style={{ minWidth: isMobile ? '100%' : 260, width: isMobile ? '100%' : 'auto' }}
+            style={{
+              minWidth: isMobile ? '100%' : 260,
+              width: isMobile ? '100%' : 'auto',
+            }}
             dropdownType="popover"
             clearable={false}
             withAsterisk
@@ -321,7 +325,9 @@ export default function Dashboard() {
                 }}
               >
                 <Text size={isMobile ? 'xs' : 'sm'}>Reportes Totales</Text>
-                <Text fw={500} size={isMobile ? 'xs' : 'sm'}>{stats.interactions.totalReports}</Text>
+                <Text fw={500} size={isMobile ? 'xs' : 'sm'}>
+                  {stats.interactions.totalReports}
+                </Text>
               </Box>
               <Box
                 style={{
@@ -331,7 +337,9 @@ export default function Dashboard() {
                 }}
               >
                 <Text size={isMobile ? 'xs' : 'sm'}>Búsquedas con Filtros</Text>
-                <Text fw={500} size={isMobile ? 'xs' : 'sm'}>{stats.interactions.searchesWithFilters}</Text>
+                <Text fw={500} size={isMobile ? 'xs' : 'sm'}>
+                  {stats.interactions.searchesWithFilters}
+                </Text>
               </Box>
               <Box
                 style={{
@@ -341,7 +349,9 @@ export default function Dashboard() {
                 }}
               >
                 <Text size={isMobile ? 'xs' : 'sm'}>Reportes Pendientes</Text>
-                <Text fw={500} size={isMobile ? 'xs' : 'sm'}>{stats.interactions.pendingReports}</Text>
+                <Text fw={500} size={isMobile ? 'xs' : 'sm'}>
+                  {stats.interactions.pendingReports}
+                </Text>
               </Box>
               <Box
                 style={{
@@ -351,7 +361,9 @@ export default function Dashboard() {
                 }}
               >
                 <Text size={isMobile ? 'xs' : 'sm'}>Reportes Resueltos</Text>
-                <Text fw={500} size={isMobile ? 'xs' : 'sm'}>{stats.interactions.resolvedReports}</Text>
+                <Text fw={500} size={isMobile ? 'xs' : 'sm'}>
+                  {stats.interactions.resolvedReports}
+                </Text>
               </Box>
               <Box style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Text size={isMobile ? 'xs' : 'sm'}>Distancia Promedio</Text>
