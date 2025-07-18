@@ -12,8 +12,8 @@ interface DashboardStore {
     userFrequency: boolean;
   };
   errors: string[];
-  getStats: () => Promise<DashboardStats>;
-  getUserFrequency: () => Promise<DashboardUserFrequency>;
+  getStats: (startDate: string, endDate: string) => Promise<DashboardStats>;
+  getUserFrequency: (startDate: string, endDate: string) => Promise<DashboardUserFrequency>;
   resetState: () => void;
   clearError: () => void;
 }
@@ -26,14 +26,16 @@ export const useDashboardStore = create<DashboardStore>((set) => ({
     userFrequency: false,
   },
   errors: [],
-  getStats: async () => {
+  getStats: async (startDate: string, endDate: string) => {
     set((state) => ({
       loading: { ...state.loading, stats: true },
       errors: [],
     }));
     try {
       const response =
-        await api.get<ApiResponse<DashboardStats>>('/dashboard/stats');
+        await api.get<ApiResponse<DashboardStats>>(
+          `/dashboard/stats?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`
+        );
       const stats = response.data.data;
       set((state) => ({
         stats,
@@ -49,14 +51,14 @@ export const useDashboardStore = create<DashboardStore>((set) => ({
       throw new Error(errMsg);
     }
   },
-  getUserFrequency: async () => {
+  getUserFrequency: async (startDate: string, endDate: string) => {
     set((state) => ({
       loading: { ...state.loading, userFrequency: true },
       errors: [],
     }));
     try {
       const response = await api.get<ApiResponse<DashboardUserFrequency>>(
-        '/dashboard/user-frequency',
+        `/dashboard/user-frequency?startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`
       );
       const userFrequency = response.data.data;
       set((state) => ({
