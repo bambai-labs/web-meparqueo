@@ -9,11 +9,11 @@ Sistema IoT de parqueo inteligente en tiempo real (Montería, Colombia).
 | Repo | Descripción | Acceso |
 |------|-------------|--------|
 | [app-meparqueo](https://github.com/bambai-labs/app-meparqueo) | App móvil React Native para conductores | Público |
-| api-meparqueo | Backend NestJS | Privado |
-| nodo-meparqueo | Firmware del sensor ESP32 (LoRaWAN) | Privado |
-| **web-meparqueo** | Panel web de administración (este repo) | Privado |
-| landing-meparqueo | Landing page | Privado |
-| survey-meparqueo | Encuestas y validación | Privado |
+| [api-meparqueo](https://github.com/bambai-labs/api-meparqueo) | Backend NestJS | Público |
+| [nodo-meparqueo](https://github.com/bambai-labs/nodo-meparqueo) | Firmware del sensor ESP32 (LoRaWAN) | Público |
+| **web-meparqueo** | Panel web de administración (este repo) | Público |
+| [landing-meparqueo](https://github.com/bambai-labs/landing-meparqueo) | Landing page | Público |
+| [survey-meparqueo](https://github.com/bambai-labs/survey-meparqueo) | Encuestas y validación | Público |
 
 ## ✨ Características
 
